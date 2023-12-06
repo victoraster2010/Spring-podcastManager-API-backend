@@ -2,6 +2,8 @@ package com.aster.podcastManager;
 
 
 import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,18 +17,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping("/podcasts")
 public class PodcastRestController {
+  private PodcastService podcastService;
+
+  @Autowired
+  public PodcastRestController(PodcastService podcastService) {
+    this.podcastService = podcastService;  
+  }
   @GetMapping
   public String getRoot() {
     return "Yay podcasts!";
   }
 
   Podcast findPodcastById(Integer id) {
-    Podcast podcast = new Podcast();
-    podcast.setId(id);
-    podcast.setName("Meu podcast");
-    podcast.setUrl("https://www.meupodcast.com.br/");
-    podcast.setSecretToker("69haha");
-    return podcast;
+    Podcast podCast = this.podcastService.findPodcastById(id);
+    return podCast;
   }
 
   @GetMapping("/{id}")
@@ -50,7 +54,7 @@ public class PodcastRestController {
     return podcast;
   }
 
-  @PostMapping
+  @PostMapping("/")
   public ResponseEntity<PodcastDTO> newPodcast(@RequestBody PodcastCreationDTO newPodcast) {
     Podcast podcast = createPodcast(newPodcast);
 
