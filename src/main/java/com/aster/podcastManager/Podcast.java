@@ -4,6 +4,7 @@ public class Podcast {
     private Integer id;
     private String name;
     private String url;
+    private String secretToker;
     
     public void setId(Integer id) {
         this.id = id;
@@ -27,5 +28,11 @@ public class Podcast {
 
     public String getUrl() {
         return url;
+    }
+    public String getSecretToker() {
+        return secretToker;
+    }
+    public void setSecretToker(String secretToker) {
+        this.secretToker = secretToker;
     }
 }
